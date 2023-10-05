@@ -2,6 +2,8 @@ package com.api.parkingcontrol.services;
 
 import com.api.parkingcontrol.models.ParkingSpotModel;
 import com.api.parkingcontrol.repositories.ParkingSpotRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +31,8 @@ public class ParkingSpotService {
         return parkingSpotModel;
     }
 
-    public List<ParkingSpotModel> getAll() {
-        return parkingSpotRepository.findAll();
+    public Page<ParkingSpotModel> getAll(Pageable pageable) {
+        return parkingSpotRepository.findAll(pageable);
     }
 
     @Transactional

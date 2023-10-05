@@ -5,6 +5,10 @@ import com.api.parkingcontrol.models.ParkingSpotModel;
 import com.api.parkingcontrol.services.ParkingSpotService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,8 +52,8 @@ public class ParkingSpotController {
     //READ
 
     @GetMapping
-    public ResponseEntity<List<ParkingSpotModel>> getAllParkingSpot(){
-        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.getAll());
+    public ResponseEntity<Page<ParkingSpotModel>> getAllParkingSpot(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.getAll(pageable));
     }
 
     @GetMapping("/{id}")
@@ -70,7 +74,7 @@ public class ParkingSpotController {
         if(!parkingSpotModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("Parking Spot id [%s] was not found!", id));
         }
-        
+
         var parkingSpotModel = new ParkingSpotModel();
         BeanUtils.copyProperties(parkingSpotDto,parkingSpotModel);
         parkingSpotModel.setId(parkingSpotModelOptional.get().getId());
