@@ -10,19 +10,23 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-public class WebSecurityConfig {
+
+public class SecurityConfiguration{
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers("/").permitAll()
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity)throws Exception{
+
+        httpSecurity
+
+                .authorizeHttpRequests((authz) -> authz
+
                         .anyRequest().authenticated()
-        return http.build();
+
+                )
+                .httpBasic(withDefaults());
+        return httpSecurity.build();
+
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 }
+
