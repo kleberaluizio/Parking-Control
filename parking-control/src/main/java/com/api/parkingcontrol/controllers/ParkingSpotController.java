@@ -50,7 +50,6 @@ public class ParkingSpotController {
     }
 
     //READ
-
     @GetMapping
     public ResponseEntity<Page<ParkingSpotModel>> getAllParkingSpot(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.getAll(pageable));
@@ -67,7 +66,6 @@ public class ParkingSpotController {
 
 
     //UPDATE
-
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateParkingSpot(@PathVariable (value = "id") UUID id, @RequestBody @Valid ParkingSpotDto parkingSpotDto){
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.getById(id);
